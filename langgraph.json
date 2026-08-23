@@ -1,0 +1,8 @@
+{
+    "python_version": "3.12",
+    "dependencies": ["./src"],
+    "graphs": {
+        "revenue_recovery": "./src/agents/orchestrator.py:recovery_agent_graph"
+    },
+    "env": "./.env"
+}

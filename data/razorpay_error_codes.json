@@ -1,0 +1,192 @@
+{
+  "error_codes": {
+    "BAD_REQUEST_PAYMENT_TIMED_OUT": {
+      "category": "TRANSIENT_GATEWAY",
+      "description": "Payment timed out while waiting for acquiring bank response.",
+      "retryable": true,
+      "recommended_vector": "INSTANT_SMART_RETRY",
+      "recommended_delay_seconds": 30,
+      "max_retries": 3,
+      "fallback_channel": "WHATSAPP_LINK",
+      "requires_human_review": false
+    },
+    "GATEWAY_ERROR": {
+      "category": "TRANSIENT_GATEWAY",
+      "description": "Downstream bank gateway failed to process transaction.",
+      "retryable": true,
+      "recommended_vector": "GATEWAY_REROUTE_RETRY",
+      "recommended_delay_seconds": 60,
+      "max_retries": 3,
+      "fallback_channel": "WHATSAPP_LINK",
+      "requires_human_review": false
+    },
+    "BANK_SERVER_DOWN": {
+      "category": "BANK_DOWNTIME",
+      "description": "Acquiring or Issuing bank network is currently experiencing severe downtime.",
+      "retryable": true,
+      "recommended_vector": "SCHEDULED_RETRY_POST_DOWNTIME",
+      "recommended_delay_seconds": 900,
+      "max_retries": 2,
+      "fallback_channel": "SMS_NOTIFICATION",
+      "requires_human_review": false
+    },
+    "BAD_REQUEST_PAYMENT_OTP_VALIDATION_FAILED": {
+      "category": "USER_FRICTION",
+      "description": "Customer entered incorrect OTP or OTP expired.",
+      "retryable": false,
+      "recommended_vector": "WHATSAPP_ONE_CLICK_LINK",
+      "recommended_delay_seconds": 120,
+      "max_retries": 2,
+      "fallback_channel": "SMS_LINK",
+      "requires_human_review": false
+    },
+    "PAYMENT_DECLINED_BY_BANK": {
+      "category": "USER_FRICTION",
+      "description": "Issuing bank declined transaction due to daily limit or security filter.",
+      "retryable": false,
+      "recommended_vector": "MULTI_INSTRUMENT_FALLBACK_LINK",
+      "recommended_delay_seconds": 180,
+      "max_retries": 2,
+      "fallback_channel": "HINGLISH_VOICE_CALL",
+      "requires_human_review": false
+    },
+    "INSUFFICIENT_FUNDS": {
+      "category": "STRUCTURAL_CHURN",
+      "description": "Customer account does not have sufficient balance at the time of debit.",
+      "retryable": true,
+      "recommended_vector": "SALARY_CYCLE_RETRY_SCHEDULE",
+      "recommended_delay_seconds": 86400,
+      "max_retries": 3,
+      "fallback_channel": "WHATSAPP_GENTLE_REMINDER",
+      "requires_human_review": false
+    },
+    "CARD_EXPIRED": {
+      "category": "STRUCTURAL_CHURN",
+      "description": "Customer credit/debit card on file has expired.",
+      "retryable": false,
+      "recommended_vector": "UPDATE_PAYMENT_METHOD_LINK",
+      "recommended_delay_seconds": 300,
+      "max_retries": 2,
+      "fallback_channel": "EMAIL_DUNNING",
+      "requires_human_review": false
+    },
+    "UPI_APP_NOT_RESPONDING": {
+      "category": "TRANSIENT_GATEWAY",
+      "description": "UPI intent app (GPay, PhonePe, Paytm) did not acknowledge collect request.",
+      "retryable": true,
+      "recommended_vector": "WHATSAPP_DYNAMIC_UPI_INTENT",
+      "recommended_delay_seconds": 60,
+      "max_retries": 2,
+      "fallback_channel": "SMS_LINK",
+      "requires_human_review": false
+    },
+    "MANDATE_EXPIRED": {
+      "category": "MANDATE_ISSUE",
+      "description": "Recurring e-mandate validity expired under RBI e-mandate norms.",
+      "retryable": false,
+      "recommended_vector": "RE_AUTHENTICATE_MANDATE_LINK",
+      "recommended_delay_seconds": 600,
+      "max_retries": 3,
+      "fallback_channel": "HINGLISH_VOICE_CALL",
+      "requires_human_review": false
+    },
+    "SUBSCRIPTION_HALTED": {
+      "category": "SUBSCRIPTION_CHURN",
+      "description": "Recurring subscription exhausted default dunning cycle.",
+      "retryable": true,
+      "recommended_vector": "SMART_DUNNING_WITH_DISCOUNT",
+      "recommended_delay_seconds": 3600,
+      "max_retries": 3,
+      "fallback_channel": "WHATSAPP_AND_VOICE",
+      "requires_human_review": false
+    },
+    "INVOICE_OVERDUE_TIER_1": {
+      "category": "B2B_OVERDUE",
+      "description": "B2B invoice overdue by 1-15 days.",
+      "retryable": true,
+      "recommended_vector": "POLITE_WHATSAPP_STATEMENT",
+      "recommended_delay_seconds": 0,
+      "max_retries": 2,
+      "fallback_channel": "EMAIL_STATEMENT",
+      "requires_human_review": false
+    },
+    "INVOICE_OVERDUE_TIER_2": {
+      "category": "B2B_OVERDUE",
+      "description": "B2B invoice overdue by 16-30 days.",
+      "retryable": true,
+      "recommended_vector": "FIRM_ESCALATION_EMAIL_AND_PTP",
+      "recommended_delay_seconds": 0,
+      "max_retries": 2,
+      "fallback_channel": "HINGLISH_FINANCE_CALL",
+      "requires_human_review": false
+    },
+    "INVOICE_OVERDUE_TIER_3": {
+      "category": "B2B_OVERDUE",
+      "description": "B2B invoice overdue by 31+ days (Critical aging).",
+      "retryable": false,
+      "recommended_vector": "EXECUTIVE_VOICE_OUTREACH_AND_SETTLEMENT",
+      "recommended_delay_seconds": 0,
+      "max_retries": 1,
+      "fallback_channel": "HUMAN_LEGAL_ESCALATION",
+      "requires_human_review": true
+    },
+    "CHECKOUT_DROP_OFF": {
+      "category": "CHECKOUT_ABANDONMENT",
+      "description": "Customer added high-intent items to cart and reached checkout before dropping off.",
+      "retryable": false,
+      "recommended_vector": "CART_RECOVERY_WHATSAPP_WITH_INCENTIVE",
+      "recommended_delay_seconds": 900,
+      "max_retries": 2,
+      "fallback_channel": "SMS_LINK",
+      "requires_human_review": false
+    },
+    "FRAUD_SUSPECTED": {
+      "category": "STRUCTURAL_CHURN",
+      "description": "High risk score or suspected fraudulent card activity detected by risk engine.",
+      "retryable": false,
+      "recommended_vector": "HARD_STOP_NO_CONTACT",
+      "recommended_delay_seconds": 0,
+      "max_retries": 0,
+      "fallback_channel": "MANUAL_DESK",
+      "requires_human_review": true
+    },
+    "DO_NOT_HONOR": {
+      "category": "USER_FRICTION",
+      "description": "Issuing bank declined with do_not_honor reason code.",
+      "retryable": false,
+      "recommended_vector": "WHATSAPP_ONE_CLICK_LINK",
+      "recommended_delay_seconds": 180,
+      "max_retries": 2,
+      "fallback_channel": "HINGLISH_VOICE_CALL",
+      "requires_human_review": false
+    },
+    "PRICE_SENSITIVITY": {
+      "category": "CHECKOUT_ABANDONMENT",
+      "description": "Customer abandoned checkout due to price sensitivity or shipping cost.",
+      "retryable": false,
+      "recommended_vector": "SMART_DUNNING_WITH_DISCOUNT",
+      "recommended_delay_seconds": 600,
+      "max_retries": 2,
+      "fallback_channel": "WHATSAPP_ONE_CLICK_LINK",
+      "requires_human_review": false
+    },
+    "INVOICE_DISPUTE": {
+      "category": "B2B_OVERDUE",
+      "description": "Customer contested line item or billing milestone on invoice.",
+      "retryable": false,
+      "recommended_vector": "HUMAN_ESCALATION",
+      "recommended_delay_seconds": 0,
+      "max_retries": 0,
+      "fallback_channel": "MANUAL_DESK",
+      "requires_human_review": true
+    }
+  },
+  "bank_health_benchmarks": {
+    "HDFC": {"uptime_pct": 98.4, "avg_latency_ms": 420, "status": "OPTIMAL"},
+    "SBI": {"uptime_pct": 94.2, "avg_latency_ms": 1150, "status": "DEGRADED"},
+    "ICICI": {"uptime_pct": 99.1, "avg_latency_ms": 380, "status": "OPTIMAL"},
+    "AXIS": {"uptime_pct": 97.8, "avg_latency_ms": 480, "status": "OPTIMAL"},
+    "KOTAK": {"uptime_pct": 98.9, "avg_latency_ms": 390, "status": "OPTIMAL"},
+    "UPI_NETWORK": {"uptime_pct": 96.5, "avg_latency_ms": 620, "status": "MODERATE"}
+  }
+}

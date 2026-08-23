@@ -1,0 +1,57 @@
+{
+  "compliance_framework": "RBI_DPDP_INDIA_v2",
+  "contact_hours": {
+    "start_time_ist": "08:00",
+    "end_time_ist": "21:00",
+    "enforce_quiet_hours": true,
+    "allow_transactional_receipts_anytime": true
+  },
+  "attempt_limits": {
+    "max_contacts_per_failure_event": 3,
+    "max_contacts_per_customer_per_day": 2,
+    "min_cooldown_between_attempts_hours": 4,
+    "max_voice_calls_per_event": 1
+  },
+  "stopping_rules": [
+    {
+      "rule_id": "STOP_PAYMENT_CONFIRMED",
+      "trigger": "webhook:payment.captured OR order.paid OR invoice.paid",
+      "action": "IMMEDIATE_ABORT_ALL_OUTREACH",
+      "severity": "CRITICAL",
+      "description": "Cease all dunning, messaging, and scheduled retries immediately upon receiving payment confirmation."
+    },
+    {
+      "rule_id": "STOP_CUSTOMER_OPT_OUT",
+      "trigger": "sentiment:opt_out OR keyword:STOP OR keyword:UNSUBSCRIBE",
+      "action": "ADD_TO_DND_AND_ABORT",
+      "severity": "CRITICAL",
+      "description": "Immediately honor customer opt-out request and mark customer as Do-Not-Disturb in audit ledger."
+    },
+    {
+      "rule_id": "STOP_DISPUTE_RAISED",
+      "trigger": "sentiment:disputed OR invoice:dispute_flagged",
+      "action": "HALT_RECOVERY_AND_ESCALATE_TO_HUMAN",
+      "severity": "HIGH",
+      "description": "When customer disputes an invoice, charges, or goods delivered, freeze automated recovery and route to finance specialist."
+    },
+    {
+      "rule_id": "STOP_PROMISE_TO_PAY_ACTIVE",
+      "trigger": "customer:promise_to_pay_date_set",
+      "action": "PAUSE_DUNNING_UNTIL_PTP_DATE",
+      "severity": "MEDIUM",
+      "description": "Pause all outbound communications until the agreed Promise-to-Pay date expires + 24 hours grace period."
+    },
+    {
+      "rule_id": "STOP_MAX_ATTEMPTS_EXCEEDED",
+      "trigger": "attempts >= max_contacts_per_failure_event",
+      "action": "TERMINATE_WORKFLOW_AND_LOG_EXHAUSTED",
+      "severity": "MEDIUM",
+      "description": "Do not exceed regulatory harassment thresholds. Mark case as unrecoverable or route to high-touch collections."
+    }
+  ],
+  "mandate_regulations": {
+    "rbi_e_mandate_pre_debit_notification_hours": 24,
+    "max_auto_retries_per_cycle": 3,
+    "minimum_retry_gap_hours": 24
+  }
+}
