@@ -1,3 +1,4 @@
+import random
 import pytest
 from agents.orchestrator import RecoveryOrchestrator
 from integrations.razorpay_client import razorpay_client
@@ -7,6 +8,7 @@ from integrations.simulator import RecoveryBatchSimulator
 def test_batch_recovery_100_cases(monkeypatch):
     # Set mock_mode to True for ultra-fast unit test execution without 100 network roundtrips
     monkeypatch.setattr(razorpay_client, "mock_mode", True)
+    random.seed(42)
     
     orchestrator = RecoveryOrchestrator()
     events = RecoveryBatchSimulator.generate_synthetic_batch(100)

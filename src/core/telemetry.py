@@ -52,6 +52,11 @@ class RecoveryTelemetryTracker:
 
             net_recovered = self.total_recovered - self.total_contact_costs
             net_lift = net_recovered - self.total_baseline_recovered
+            blocked_count = len([
+                r for r in self.records 
+                if (r.compliance and not r.compliance.action_permitted) 
+                or (r.status and r.status.value.startswith("STOPPED"))
+            ])
 
             return RecoveryKPIs(
                 total_at_risk_inr=round(self.total_at_risk, 2),
@@ -60,6 +65,7 @@ class RecoveryTelemetryTracker:
                 total_events_processed=len(self.records),
                 active_recovery_pipelines=len([r for r in self.records if r.status in [RecoveryStatus.AT_RISK, RecoveryStatus.OUTREACH_ACTIVE]]),
                 total_ptp_secured_inr=round(self.active_ptp_total, 2),
+                total_blocked=blocked_count,
                 compliance_violation_count=self.compliance_violations,
                 channel_recovery_rates=channel_rates,
                 total_contact_costs_inr=round(self.total_contact_costs, 2),

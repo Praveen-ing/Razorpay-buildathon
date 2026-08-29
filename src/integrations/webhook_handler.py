@@ -63,6 +63,23 @@ class WebhookIdempotencyStore:
 # Global singleton idempotency store
 webhook_idempotency = WebhookIdempotencyStore()
 
+class WebhookEventStore:
+    """In-memory store for webhook JSON logs for the Razorpay Control Panel."""
+    def __init__(self) -> None:
+        self.logs: list[dict[str, Any]] = []
+
+    def add_log(self, payload: dict[str, Any]) -> None:
+        self.logs.insert(0, {
+            "timestamp": datetime.now().isoformat(),
+            "event_type": payload.get("event", "unknown"),
+            "event_id": RazorpayWebhookParser.get_event_id(payload),
+            "payload": payload
+        })
+        # Keep only the last 50 logs in memory
+        self.logs = self.logs[:50]
+
+webhook_event_store = WebhookEventStore()
+
 
 class RazorpayWebhookParser:
     """Parses and normalizes raw Razorpay webhook events into recovery domain events."""

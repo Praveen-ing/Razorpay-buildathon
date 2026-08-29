@@ -34,6 +34,7 @@ from integrations.simulator import RecoveryBatchSimulator
 from integrations.webhook_handler import (
     RazorpayWebhookParser,
     webhook_idempotency,
+    webhook_event_store,
 )
 from schema.recovery_schema import (
     AuditLogEntry,
@@ -144,6 +145,7 @@ async def razorpay_webhook_receiver(
     # ── Parse Payload ─────────────────────────────────────────────────────
     try:
         payload = json.loads(body_bytes)
+        webhook_event_store.add_log(payload)
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid JSON payload")
 
@@ -291,6 +293,43 @@ async def list_payments(status_filter: str | None = None, count: int = 10) -> di
         "count": len(payments),
         "payments": payments,
     }
+
+from pydantic import BaseModel
+class CreateOrderRequest(BaseModel):
+    amount: float
+    description: str | None = None
+    customer_email: str | None = None
+    customer_phone: str | None = None
+
+@recovery_router.post("/razorpay/orders")
+async def create_order(request: CreateOrderRequest) -> dict[str, Any]:
+    """Create a standard Razorpay order for checkout."""
+    return razorpay_client.create_order(
+        amount=request.amount,
+        notes={
+            "description": request.description or "",
+            "customer_email": request.customer_email or "",
+            "customer_phone": request.customer_phone or ""
+        }
+    )
+
+class RefundRequest(BaseModel):
+    amount: float | None = None
+    notes: dict[str, str] | None = None
+
+@recovery_router.post("/razorpay/refund/{payment_id}")
+async def refund_payment(payment_id: str, request: RefundRequest) -> dict[str, Any]:
+    """Trigger a refund for a Razorpay payment."""
+    return razorpay_client.refund_payment(
+        payment_id=payment_id,
+        amount=request.amount,
+        notes=request.notes
+    )
+
+@recovery_router.get("/webhooks/logs")
+async def get_webhook_logs(count: int = 50) -> list[dict[str, Any]]:
+    """Fetch recent webhook events."""
+    return webhook_event_store.logs[:count]
 
 
 # ─── Voice Recovery ───────────────────────────────────────────────────────────

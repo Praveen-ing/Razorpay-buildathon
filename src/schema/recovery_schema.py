@@ -112,6 +112,10 @@ class RootCauseDiagnosis(BaseModel):
     is_preemptive_interception: bool = Field(default=False, description="Flag indicating pre-failure telemetry interception")
     suggested_gateway_swap: str | None = Field(default=None, description="Recommended alternative gateway (e.g. Razorpay Turbo UPI)")
 
+    @property
+    def urgency(self) -> str:
+        return self.urgency_level
+
 
 class BankTelemetrySignal(BaseModel):
     bank_name: str
@@ -133,7 +137,6 @@ class ZKComplianceProof(BaseModel):
     max_attempts_verified: bool = True
     zk_hash: str = Field(..., description="SHA-256 Zero-Knowledge proof signature asserting DPDP compliance without revealing customer PII")
     timestamp: datetime = Field(default_factory=datetime.now)
-
 
 
 class RecoveryIntervention(BaseModel):
@@ -242,6 +245,7 @@ class RecoveryKPIs(BaseModel):
     total_events_processed: int = 0
     active_recovery_pipelines: int = 0
     total_ptp_secured_inr: float = 0.0
+    total_blocked: int = 0
     compliance_violation_count: int = 0
     channel_recovery_rates: dict[str, float] = Field(default_factory=dict)
     total_contact_costs_inr: float = 0.0
