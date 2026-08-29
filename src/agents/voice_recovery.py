@@ -27,6 +27,8 @@ class VoiceRecoveryAgent:
         """Processes live speech/text from a customer and returns the agent's Hinglish response + state update."""
         utterance_lower = customer_utterance.lower()
 
+        midcall_action = None
+
         if any(k in utterance_lower for k in ["stop", "mat call karo", "don't call", "dnd", "nahi chahiye", "cancel"]):
             response = "Theek hai ji, maine aapka number DND list mein daal diya hai. Aapko aage se koi call nahi aayega. Dhanyawad."
             outcome = "STOPPED_OPT_OUT"
@@ -35,9 +37,21 @@ class VoiceRecoveryAgent:
             response = "Samajh gaya ji. Main turant ye dunning process halt kar raha hoon aur hamari finance dispute team ko escalate kar raha hoon. Wo aapse contact karenge."
             outcome = "STOPPED_DISPUTE_ESCALATED"
             ptp = None
+        elif any(k in utterance_lower for k in ["driving", "gaadi", "busy", "meeting", "baad mein phone karo"]):
+            response = f"Koi baat nahi ji! Maine turant aapke WhatsApp pe 1-click Razorpay payment link bhej diya hai: {payment_link}. Aap gaadi park karke ya meeting ke baad 1-tap se complete kar sakte hain."
+            outcome = "MIDCALL_WHATSAPP_LINK_DISPATCHED"
+            midcall_action = "DISPATCH_INSTANT_WHATSAPP_LINK"
+            ptp = None
+        elif any(k in utterance_lower for k in ["mehenga", "discount", "budget", "kam karo", "expensive"]):
+            discounted_amt = round(event.amount * 0.95, 2)
+            response = f"Aap hamare VIP customer hain! Maine special 5% waiver apply kar diya hai. Ab aapko sirf ₹{discounted_amt:,.2f} pay karna hai. WhatsApp link update kar diya hai: {payment_link}"
+            outcome = "MIDCALL_DISCOUNT_APPLIED"
+            midcall_action = "APPLY_5PCT_MIDCALL_DISCOUNT"
+            ptp = None
         elif any(k in utterance_lower for k in ["kal", "tomorrow", "baad mein", "salary", "shaam", "next week", "monday", "promise"]):
             response = "Bilkul ji! Maine aapka payment promise schedule kar diya hai. Tab tak ke liye saari automated reminders pause rahengi. Shukriya!"
             outcome = "PROMISE_TO_PAY_RECORDED"
+            midcall_action = "RECORD_PROMISE_TO_PAY"
             ptp = PromiseToPayRecord(
                 transaction_id=event.transaction_id,
                 customer_id=event.customer_id,
@@ -55,7 +69,9 @@ class VoiceRecoveryAgent:
             "agent_response": response,
             "outcome": outcome,
             "ptp_record": ptp,
+            "midcall_action": midcall_action,
         }
 
 
 voice_recovery_agent = VoiceRecoveryAgent()
+

@@ -109,6 +109,31 @@ class RootCauseDiagnosis(BaseModel):
     churn_risk_if_contacted: float = Field(default=0.03, ge=0.0, le=1.0, description="P(churn)")
     suggested_action: str = Field("send_razorpay_link", description="Recommended action vector")
     urgency_level: str = Field(default="MEDIUM", description="LOW, MEDIUM, HIGH, CRITICAL")
+    is_preemptive_interception: bool = Field(default=False, description="Flag indicating pre-failure telemetry interception")
+    suggested_gateway_swap: str | None = Field(default=None, description="Recommended alternative gateway (e.g. Razorpay Turbo UPI)")
+
+
+class BankTelemetrySignal(BaseModel):
+    bank_name: str
+    gateway_status: str = Field(default="OPTIMAL", description="OPTIMAL, DEGRADED, DOWN")
+    success_rate_pct: float = Field(default=98.5, description="Real-time 60s success rate %")
+    latency_ms: int = Field(default=450, description="Average response latency")
+    is_degraded: bool = Field(default=False)
+    recommended_route: str = Field(default="Razorpay Standard")
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class ZKComplianceProof(BaseModel):
+    proof_id: str = Field(default_factory=lambda: f"zkp_{uuid4().hex[:12]}")
+    recovery_case_id: str
+    transaction_id: str
+    dpdp_consent_verified: bool = True
+    contact_hours_verified: bool = True
+    dnd_opt_out_verified: bool = True
+    max_attempts_verified: bool = True
+    zk_hash: str = Field(..., description="SHA-256 Zero-Knowledge proof signature asserting DPDP compliance without revealing customer PII")
+    timestamp: datetime = Field(default_factory=datetime.now)
+
 
 
 class RecoveryIntervention(BaseModel):

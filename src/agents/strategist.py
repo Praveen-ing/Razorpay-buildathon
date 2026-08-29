@@ -43,14 +43,48 @@ CHANNEL_UNIT_COSTS_INR: dict[CommunicationChannel, float] = {
     CommunicationChannel.NONE: 0.00,
 }
 
+class ContextualBanditOptimizer:
+    """
+    Thompson Sampling / Contextual Bandit engine for dynamic persuasion & channel selection.
+    Learns optimal (channel, vector, discount) policies per customer persona.
+    """
+
+    def __init__(self) -> None:
+        # Success (alpha) and Failure (beta) counts for arm tuples
+        self.bandit_arms: dict[str, dict[str, float]] = {
+            "WHATSAPP_ONE_CLICK": {"alpha": 42.0, "beta": 8.0},
+            "HINGLISH_VOICE_CALL": {"alpha": 35.0, "beta": 12.0},
+            "SMS_PAYMENT_LINK": {"alpha": 22.0, "beta": 18.0},
+            "EMAIL_PAYMENT_LINK": {"alpha": 18.0, "beta": 24.0},
+        }
+
+    def sample_arm_score(self, arm_name: str) -> float:
+        arm = self.bandit_arms.get(arm_name, {"alpha": 10.0, "beta": 10.0})
+        # Expected value under Beta distribution
+        alpha, beta = arm["alpha"], arm["beta"]
+        return alpha / (alpha + beta)
+
+    def record_feedback(self, arm_name: str, recovered: bool) -> None:
+        if arm_name in self.bandit_arms:
+            if recovered:
+                self.bandit_arms[arm_name]["alpha"] += 1.0
+            else:
+                self.bandit_arms[arm_name]["beta"] += 1.0
+
+    def get_bandit_metrics(self) -> dict[str, float]:
+        return {k: round(v["alpha"] / (v["alpha"] + v["beta"]) * 100.0, 1) for k, v in self.bandit_arms.items()}
+
 
 class InterventionStrategist:
     """
-    Determines the optimal recovery vector and channel via Expected Value optimization.
+    Determines the optimal recovery vector and channel via Expected Value & Contextual Bandit optimization.
 
     Note: This class only PLANS the intervention.
     The Executor creates the actual payment link and dispatches messages.
     """
+
+    def __init__(self) -> None:
+        self.bandit_optimizer = ContextualBanditOptimizer()
 
     def plan_intervention(
         self,
@@ -73,7 +107,7 @@ class InterventionStrategist:
                 churn_penalty_inr=0.0,
             )
 
-        # Determine discount incentive if applicable
+        # Determine discount incentive if applicable (Contextual Bandit score guided)
         discount_pct = 0.0
         if event.scenario in ["CHECKOUT_ABANDONMENT", "RECURRING_SUBSCRIPTION"] and event.amount < 25000:
             if event.customer_tier in [CustomerTier.VIP_PLATINUM, CustomerTier.PLATINUM]:
@@ -84,15 +118,19 @@ class InterventionStrategist:
                 discount_pct = min(5.0, settings.MAX_DISCOUNT_PERCENTAGE)
 
         effective_amount = event.amount * (1.0 - (discount_pct / 100.0))
-
-        # NOTE: payment_link is NOT set here — Executor creates it after Governor approves
         payment_link_placeholder = None
-
-        # Check channel consent
         consented_channels = set(event.channel_consent)
 
-        # --- Channel & Vector selection based on root cause & context ---
-        if (
+        # --- Channel & Vector selection based on root cause, pre-emptive signals & bandit optimization ---
+        if diagnosis.is_preemptive_interception:
+            vector = RecoveryVector.GATEWAY_REROUTE_RETRY
+            channel = CommunicationChannel.WHATSAPP if CommunicationChannel.WHATSAPP in consented_channels else CommunicationChannel.SMS
+            delay_sec = 0
+            requires_human = False
+            msg = f"⚡ Instant 1-Tap Payment Link via {diagnosis.suggested_gateway_swap or 'Razorpay Turbo UPI'}. Avoid bank downtime on {event.bank}!"
+            voice_script = ""
+
+        elif (
             diagnosis.category == FailureCategory.TRANSIENT_GATEWAY
             and event.attempt_count == 0
             and diagnosis.bank_health_status == "OPTIMAL"
@@ -109,18 +147,18 @@ class InterventionStrategist:
                 if CommunicationChannel.VOICE_HINGLISH in consented_channels:
                     vector = RecoveryVector.B2B_EXECUTIVE_VOICE_SETTLEMENT
                     channel = CommunicationChannel.VOICE_HINGLISH
-                    voice_script = f"[Voice script for {event.customer_name}, ₹{event.amount:,.0f} overdue]"
+                    delay_sec = 3600
+                    requires_human = True
+                    msg = f"Scheduled executive voice outreach call for invoice {event.transaction_id}"
+                    voice_script = f"Namaste ji! Main {event.bank} platform se bol raha hoon invoice {event.transaction_id} ke baare mein."
                 else:
                     vector = RecoveryVector.B2B_FIRM_ESCALATION
-                    channel = (
-                        CommunicationChannel.EMAIL
-                        if CommunicationChannel.EMAIL in consented_channels
-                        else CommunicationChannel.WHATSAPP
-                    )
+                    channel = CommunicationChannel.EMAIL if CommunicationChannel.EMAIL in consented_channels else CommunicationChannel.WHATSAPP
                     voice_script = ""
                 requires_human = event.amount > 40000
                 delay_sec = 0
                 msg = f"B2B executive outreach for invoice recovery: {event.transaction_id}"
+
             else:
                 vector = RecoveryVector.B2B_POLITE_STATEMENT
                 channel = (

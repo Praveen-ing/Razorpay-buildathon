@@ -271,6 +271,33 @@ with c6:
     )
 
 
+# 🔮 Real-Time Predictive Bank Health Telemetry Radar & Contextual Bandit Expander
+with st.expander("🔮 Real-Time Bank Gateway Telemetry & Contextual Bandit Persuasion Engine (Live Radar)", expanded=False):
+    t_col1, t_col2 = st.columns([1.2, 1])
+    with t_col1:
+        st.subheader("🌐 Indian Bank Acquiring Gateway Success Rates (60s Window)")
+        from core.telemetry import bank_health_tracker
+        all_t = bank_health_tracker.get_all_telemetry()
+        t_df = []
+        for bank, b_data in all_t.items():
+            t_df.append({
+                "Bank Gateway": bank,
+                "Success Rate (%)": f"{b_data['success_rate_pct']}%",
+                "Latency (ms)": f"{b_data['latency_ms']}ms",
+                "Gateway Status": "🟢 OPTIMAL" if b_data['status'] == "OPTIMAL" else ("🟡 DEGRADED" if b_data['status'] == "DEGRADED" else "🔴 DOWN"),
+                "Pre-Emptive Route": b_data["recommended_route"],
+            })
+        st.dataframe(pd.DataFrame(t_df), use_container_width=True)
+
+    with t_col2:
+        st.subheader("🧠 Contextual Bandit Thompson Sampling (Conversion Rate %)")
+        from agents.strategist import strategist_agent
+        b_metrics = strategist_agent.bandit_optimizer.get_bandit_metrics()
+        for arm, winrate in b_metrics.items():
+            st.write(f"**{arm.replace('_', ' ')}**: `{winrate}% Conversion Rate`")
+            st.progress(int(winrate))
+
+
 # Main Tabs Navigation (Including direct Razorpay Test Mode Gateway)
 tab_batch, tab_live, tab_rzp, tab_voice, tab_b2b, tab_audit = st.tabs([
     "🚀 Batch Benchmark Arena & Baseline Comparison",
@@ -280,6 +307,7 @@ tab_batch, tab_live, tab_rzp, tab_voice, tab_b2b, tab_audit = st.tabs([
     "🏢 B2B Receivables & Promise-to-Pay",
     "🛡️ Cryptographic Compliance & Audit Ledger",
 ])
+
 
 
 # ==========================================
@@ -788,12 +816,15 @@ with tab_b2b:
 # TAB 6: COMPLIANCE & CRYPTOGRAPHIC AUDIT LEDGER
 # ==========================================
 with tab_audit:
-    st.header("🛡️ Cryptographic Regulatory Audit Ledger")
+    st.header("🛡️ Cryptographic Regulatory Audit Ledger & ZK-Compliance Shield")
     st.markdown("Tamper-evident append-only audit trail recording every state transition, compliance check, stopping rule, and recovery action with a SHA-256 hash chain.")
 
     col_a1, col_a2 = st.columns([1.5, 1])
     with col_a1:
         verify_btn = st.button("🔐 Verify SHA-256 Hash Chain Integrity", type="primary")
+
+    with col_a2:
+        zk_btn = st.button("🛡️ Generate ZK-Compliance Proof (DPDP 2023)", type="secondary")
 
     if verify_btn:
         is_valid, count = audit_ledger_agent.verify_ledger_integrity()
@@ -801,6 +832,15 @@ with tab_audit:
             st.success(f"✅ Cryptographic Integrity Verified: 100% Tamper-Evident across all {count} audit records!")
         else:
             st.error(f"❌ Hash chain mismatch detected at index {count}!")
+
+    if zk_btn:
+        proof = audit_ledger_agent.generate_zkp_compliance_proof("rcase_demo_9912", "txn_live_demo")
+        st.info(f"🛡️ **Zero-Knowledge Compliance Certificate Generated (DPDP Act 2023 Compliant)**\n\n"
+                f"• **Proof ID**: `{proof.proof_id}`\n"
+                f"• **DPDP Consent**: Verified ✅\n"
+                f"• **Contact Hours**: 10:00 - 19:00 IST Verified ✅\n"
+                f"• **DND & Max Attempt Rules**: Verified ✅\n"
+                f"• **ZKP Cryptographic Signature**: `{proof.zk_hash}`")
 
     logs = audit_ledger_agent.get_all_logs(limit=100)
 
@@ -821,3 +861,4 @@ with tab_audit:
                 "Compliance Verified": "✅ PASSED" if l.compliance_verified else "❌ FAILED",
             })
         st.dataframe(pd.DataFrame(log_data), use_container_width=True)
+

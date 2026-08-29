@@ -56,3 +56,31 @@ class WhatsAppChannelAdapter:
             )
 
         return body
+
+    @staticmethod
+    def format_interactive_pay_payload(
+        event: TransactionFailureEvent,
+        payment_link: str,
+        discount_pct: float = 0.0,
+    ) -> dict:
+        """Formats WhatsApp Cloud API Interactive Message Payload with 1-Tap Razorpay Pay Button."""
+        amount_formatted = f"₹{event.amount:,.2f}"
+        return {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": event.customer_phone or "919999999999",
+            "type": "interactive",
+            "interactive": {
+                "type": "button",
+                "header": {"type": "text", "text": "⚡ 1-Tap Payment Recovery — Razorpay"},
+                "body": {"text": f"Namaste {event.customer_name}! Your payment of {amount_formatted} was interrupted. Tap below to complete with instant 1-tap UPI."},
+                "footer": {"text": "Powered by RevRecover AI & Razorpay"},
+                "action": {
+                    "buttons": [
+                        {"type": "url", "url": payment_link, "title": "⚡ 1-Tap Pay Now"},
+                        {"type": "reply", "reply": {"id": "opt_out_dnd", "title": "Opt-Out (DND)"}},
+                    ]
+                },
+            },
+        }
+

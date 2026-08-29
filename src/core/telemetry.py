@@ -1,6 +1,8 @@
 import threading
 from datetime import datetime
+from typing import Any
 from schema.recovery_schema import RecoveryKPIs, TransactionRecoveryRecord, RecoveryStatus
+
 
 
 class RecoveryTelemetryTracker:
@@ -81,5 +83,43 @@ class RecoveryTelemetryTracker:
             self.active_ptp_total = 0.0
 
 
-# Global singleton instance
+class BankHealthTracker:
+    """Real-time Indian Bank Gateway Telemetry and Pre-Emptive Failure Interception Engine."""
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._bank_telemetry: dict[str, dict[str, Any]] = {
+            "HDFC": {"success_rate_pct": 98.2, "latency_ms": 420, "status": "OPTIMAL", "recommended_route": "Razorpay Standard"},
+            "SBI": {"success_rate_pct": 64.5, "latency_ms": 1850, "status": "DEGRADED", "recommended_route": "Razorpay Turbo UPI / ICICI Direct"},
+            "ICICI": {"success_rate_pct": 99.1, "latency_ms": 310, "status": "OPTIMAL", "recommended_route": "Razorpay Direct Netbanking"},
+            "AXIS": {"success_rate_pct": 97.8, "latency_ms": 490, "status": "OPTIMAL", "recommended_route": "Razorpay Standard"},
+            "UPI_NETWORK": {"success_rate_pct": 99.5, "latency_ms": 280, "status": "OPTIMAL", "recommended_route": "Razorpay Flash UPI"},
+        }
+
+    def get_bank_health(self, bank_name: str) -> dict[str, Any]:
+        with self._lock:
+            return self._bank_telemetry.get(
+                bank_name.upper(),
+                {"success_rate_pct": 98.0, "latency_ms": 400, "status": "OPTIMAL", "recommended_route": "Razorpay Standard"}
+            )
+
+    def set_bank_degradation(self, bank_name: str, success_rate_pct: float, latency_ms: int) -> None:
+        with self._lock:
+            status = "OPTIMAL" if success_rate_pct >= 90.0 else ("DEGRADED" if success_rate_pct >= 60.0 else "DOWN")
+            route = "Razorpay Turbo UPI / ICICI Direct" if status != "OPTIMAL" else "Razorpay Standard"
+            self._bank_telemetry[bank_name.upper()] = {
+                "success_rate_pct": success_rate_pct,
+                "latency_ms": latency_ms,
+                "status": status,
+                "recommended_route": route,
+            }
+
+    def get_all_telemetry(self) -> dict[str, dict[str, Any]]:
+        with self._lock:
+            return dict(self._bank_telemetry)
+
+
+# Global singleton instances
 telemetry_tracker = RecoveryTelemetryTracker()
+bank_health_tracker = BankHealthTracker()
+

@@ -242,6 +242,24 @@ async def verify_audit_integrity() -> dict[str, Any]:
     }
 
 
+@recovery_router.get("/audit/zk-proof/{recovery_case_id}")
+async def generate_zk_compliance_proof(recovery_case_id: str, transaction_id: str = "txn_default_123") -> dict[str, Any]:
+    """Generate cryptographic Zero-Knowledge proof signature asserting DPDP 2023 compliance without exposing PII."""
+    proof = audit_ledger_agent.generate_zkp_compliance_proof(recovery_case_id, transaction_id)
+    return proof.model_dump()
+
+
+@recovery_router.get("/telemetry/bank-health")
+async def get_bank_health_telemetry() -> dict[str, Any]:
+    """Retrieve real-time Indian bank gateway health telemetry & pre-emptive failure interception status."""
+    from core.telemetry import bank_health_tracker
+    return {
+        "bank_telemetry": bank_health_tracker.get_all_telemetry(),
+        "status": "ACTIVE_TELEMETRY",
+    }
+
+
+
 # ─── Razorpay Test Gateway ────────────────────────────────────────────────────
 
 @recovery_router.get("/razorpay/payment-links")

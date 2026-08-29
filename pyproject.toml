@@ -103,8 +103,8 @@ asyncio_default_fixture_loop_scope = "function"
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::UserWarning",
-    "ignore::starlette.exceptions.StarletteDeprecationWarning",
 ]
+
 
 [tool.pytest_env]
 OPENAI_API_KEY = "sk-fake-openai-key"

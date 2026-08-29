@@ -126,6 +126,17 @@ class RevenueLeakageDetector:
         )
         is_retryable = error_info.get("retryable", True)
 
+        # Check real-time live telemetry from BankHealthTracker
+        from core.telemetry import bank_health_tracker
+        live_telemetry = bank_health_tracker.get_bank_health(event.bank)
+        live_bank_status = live_telemetry.get("status", bank_health)
+        is_preemptive = live_bank_status in ["DEGRADED", "DOWN"]
+        suggested_swap = live_telemetry.get("recommended_route", "Razorpay Turbo UPI / Flash Checkout") if is_preemptive else None
+
+        if is_preemptive:
+            bank_health = live_bank_status
+            explanation = f"[PRE-EMPTIVE INTERCEPTION] Real-time telemetry flagged {event.bank} gateway as {live_bank_status} ({live_telemetry.get('success_rate_pct', 65.0)}% success rate). Recommending instant swap to {suggested_swap}."
+
         return RootCauseDiagnosis(
             category=category,
             confidence=0.96,
@@ -138,7 +149,10 @@ class RevenueLeakageDetector:
             churn_risk_if_contacted=round(p_churn, 3),
             suggested_action=suggested_action,
             urgency_level=urgency,
+            is_preemptive_interception=is_preemptive,
+            suggested_gateway_swap=suggested_swap,
         )
 
 
 detector_agent = RevenueLeakageDetector()
+
