@@ -28,7 +28,7 @@ from agents.audit_agent import audit_ledger_agent
 from agents.orchestrator import orchestrator
 from agents.voice_recovery import voice_recovery_agent
 from core.settings import settings
-from core.telemetry import telemetry_tracker
+from core.telemetry import telemetry_tracker, bank_health_tracker, calculate_enterprise_roi
 from integrations.razorpay_client import razorpay_client
 from integrations.simulator import RecoveryBatchSimulator
 from integrations.webhook_handler import (
@@ -43,6 +43,7 @@ from schema.recovery_schema import (
     RecoveryKPIs,
     TransactionFailureEvent,
     TransactionRecoveryRecord,
+    ZKComplianceProof,
 )
 
 logger = logging.getLogger(__name__)
@@ -352,3 +353,39 @@ async def simulate_voice_turn(
     )
     payment_link = f"https://rzp.io/i/plink_{transaction_id[:8]}"
     return voice_recovery_agent.process_customer_speech_or_text(event, customer_speech, payment_link)
+
+
+# ─── 🏆 Top 0.000000000001% Hackathon Winner Features ───────────────────────
+
+@recovery_router.post("/recovery/preemptive-check")
+async def preemptive_interception_check(bank_name: str = "SBI", payment_method: str = "UPI") -> dict[str, Any]:
+    """
+    Pre-checkout Telemetry Interception & Dynamic Gateway Optimizer.
+    Evaluates acquiring bank health in real-time to pre-emptively swap checkout routes before payment failure.
+    """
+    return bank_health_tracker.preemptive_interception_advice(bank_name=bank_name, payment_method=payment_method)
+
+
+@recovery_router.post("/audit/zk-proof/verify")
+async def verify_zk_compliance_proof(proof: ZKComplianceProof) -> dict[str, Any]:
+    """
+    Cryptographically verify a Zero-Knowledge (ZK) Compliance Proof signature.
+    Proves DPDP 2023 & RBI compliance assertions without revealing customer PII.
+    """
+    is_valid, message = audit_ledger_agent.verify_zkp_compliance_proof(proof)
+    return {
+        "is_valid": is_valid,
+        "verification_message": message,
+        "proof_id": proof.proof_id,
+        "recovery_case_id": proof.recovery_case_id,
+        "zk_hash": proof.zk_hash,
+    }
+
+
+@recovery_router.get("/analytics/roi-calculator")
+async def calculate_roi_projection(annual_gmv_inr: float = 50000000.0, recovery_rate_pct: float = 74.2) -> dict[str, Any]:
+    """
+    Calculate ROI, net revenue lift, and customer churn reduction for enterprise merchants.
+    """
+    return calculate_enterprise_roi(annual_gmv_inr=annual_gmv_inr, recovery_rate_pct=recovery_rate_pct)
+
