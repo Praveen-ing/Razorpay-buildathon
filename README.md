@@ -1,18 +1,20 @@
 # ⚡ RevRecover AI — Autonomous AI Revenue Recovery Platform
 
-> **Razorpay Buildathon — Track 03: AI Revenue Recovery**  
-> *"Find revenue that's slipping away and win it back."*
+> **Autonomous Revenue Recovery Platform for Indian Digital Commerce & SaaS**  
+> *Closed-loop multi-agent engine: Risk Telemetry → Expected Value Decisioning → Bounded Outreach → Cryptographic Audit*
 
 [![Python Version](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com)
 [![LangGraph](https://img.shields.io/badge/Multi--Agent-LangGraph-FF6F00.svg)](https://langchain-ai.github.io/langgraph/)
 [![Razorpay](https://img.shields.io/badge/Payments-Razorpay-0C2340.svg)](https://razorpay.com)
 [![Compliance](https://img.shields.io/badge/Regulatory-RBI%20%7C%20DPDP%202023-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/Tests-42%20Passed-success.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-52%20Passed-success.svg)]()
+
+> 📖 **Operational Documentation**: For an in-depth operational walkthrough, cURL API cheatsheet, and mathematical formulation, refer to [**`SYSTEM_GUIDE.md`**](SYSTEM_GUIDE.md).
 
 ---
 
-## 🎯 Executive Overview & The Winning Pitch
+## 🎯 Executive Overview
 
 Businesses worldwide—and in India's fast-growing digital economy—silently bleed **5% to 15% of their Gross Merchandise Value (GMV)** due to fragmented, multi-step revenue drop-offs:
 1. **Payment Failures & Transient Bank Glitches**: Gateway timeouts, bank OTP drops, issuer downtime (HDFC, SBI, ICICI, UPI network spikes).
@@ -24,11 +26,11 @@ Businesses worldwide—and in India's fast-growing digital economy—silently bl
 
 ---
 
-## 🏆 Exceeding "The Bar"
+## 📊 Core Performance Metrics & Compliance Guardrails
 
-> **The Hackathon Bar**: *"Don't just identify the problem. Show measured money recovered across a batch, with compliant escalation, stopping rules, and an audit trail."*
+> **Production Mandate**: Identify at-risk transactions, execute bounded interventions with verifiable positive Expected Value, strictly enforce Indian financial compliance (RBI & DPDP 2023), and prove measured net recovery with an immutable audit ledger.
 
-| Hackathon Requirement | How RevRecover AI Wins |
+| Enterprise Requirement | RevRecover AI Production Implementation |
 | :--- | :--- |
 | **Measured Money Recovered** | Built-in **Batch Benchmark Arena** executes 100 to 500 realistic transactions, quantifying exact ₹ at risk vs ₹ recovered (>70% recovery rate) in seconds. |
 | **Root-Cause Telemetry** | Maps 40+ Razorpay error codes (`BAD_REQUEST_PAYMENT_TIMED_OUT`, `BANK_SERVER_DOWN`, `INSUFFICIENT_FUNDS`, etc.) and bank health heuristics. |
@@ -152,16 +154,21 @@ Open **`http://localhost:8501`** in your browser to experience:
 - 📊 **Executive Recovery KPI Dashboard** (₹ at risk, gross recovered, contact costs, net lift)
 - 🚀 **1-Click Batch Benchmark Arena** (100 to 500 cases with baseline lift metrics)
 - ⚡ **Live Event Ingestion & Webhook Simulator** (Immediate testing of failure scenarios & compliance stops)
+- 📅 **Mandate Retry Sequencer** (RBI-compliant multi-step dunning calendar)
+- 📡 **Webhook Simulator** (HMAC-SHA256 signature verification & idempotency replay protection)
+- 🔥 **Cohort Risk Engine** (RFM & churn risk clustering with automated intervention strategies)
+- 🗺️ **Customer Journey & Lifecycle** (Interactive timeline tracking & state machine transitions)
 - 💳 **Real Razorpay Test Mode Gateway** (Live link generation, query links & payments on Razorpay)
 - 🎙️ **Hinglish AI Voice Call Sandbox** (Interactive phone call simulation & Promise-to-Pay logging)
 - 🏢 **B2B Aging Invoices & Promise-to-Pay Ledger**
 - 🛡️ **Cryptographic SHA-256 Regulatory Audit Trail**
+- 💎 **Enterprise Capabilities Showcase** (Multi-channel card gallery, ZK compliance proof & enterprise ROI)
 
 ### 4. Run the FastAPI Backend Service
 ```bash
 python src/run_service.py
 ```
-FastAPI endpoints available at **`http://localhost:8080`**:
+FastAPI endpoints available at **`http://localhost:8080`** (Swagger docs at `http://localhost:8080/docs`):
 - `POST /recovery/process` — Process single payment failure
 - `POST /recovery/batch` — Run batch recovery on list of transactions
 - `POST /recovery/benchmark/{name}` — Execute synthetic benchmark

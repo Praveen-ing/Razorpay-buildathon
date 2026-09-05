@@ -101,50 +101,11 @@ class Settings(BaseSettings):
     COMPATIBLE_API_KEY: SecretStr | None = None
     COMPATIBLE_BASE_URL: str | None = None
 
-    OPENWEATHERMAP_API_KEY: SecretStr | None = None
-
-    # MCP Configuration
-    GITHUB_PAT: SecretStr | None = None
-    MCP_GITHUB_SERVER_URL: str = "https://api.githubcopilot.com/mcp/"
-
-    LANGCHAIN_TRACING_V2: bool = False
-    LANGCHAIN_PROJECT: str = "default"
-    LANGCHAIN_ENDPOINT: Annotated[str, BeforeValidator(check_str_is_http)] = (
-        "https://api.smith.langchain.com"
-    )
-    LANGCHAIN_API_KEY: SecretStr | None = None
-
-    LANGFUSE_TRACING: bool = False
-    LANGFUSE_HOST: Annotated[str, BeforeValidator(check_str_is_http)] = "https://cloud.langfuse.com"
-    LANGFUSE_PUBLIC_KEY: SecretStr | None = None
-    LANGFUSE_SECRET_KEY: SecretStr | None = None
-
-    # Database Configuration
-    DATABASE_TYPE: DatabaseType = (
-        DatabaseType.SQLITE
-    )  # Options: DatabaseType.SQLITE or DatabaseType.POSTGRES
+    # Database Configuration (Development default: SQLite / in-memory)
+    DATABASE_TYPE: DatabaseType = DatabaseType.SQLITE
     SQLITE_DB_PATH: str = "checkpoints.db"
 
-    # PostgreSQL Configuration
-    POSTGRES_USER: str | None = None
-    POSTGRES_PASSWORD: SecretStr | None = None
-    POSTGRES_HOST: str | None = None
-    POSTGRES_PORT: int | None = None
-    POSTGRES_DB: str | None = None
-    POSTGRES_APPLICATION_NAME: str = "agent-service-toolkit"
-    POSTGRES_MIN_CONNECTIONS_PER_POOL: int = 1
-    POSTGRES_MAX_CONNECTIONS_PER_POOL: int = 1
-
-    # MongoDB Configuration
-    MONGO_HOST: str | None = None
-    MONGO_PORT: int | None = None
-    MONGO_DB: str | None = None
-    MONGO_USER: str | None = None
-    MONGO_PASSWORD: SecretStr | None = None
-    MONGO_AUTH_SOURCE: str | None = None
-    MONGO_TLS: bool = False  # opt-in TLS for MongoDB; set to True for production/Atlas
-
-    # Azure OpenAI Settings
+    # Azure OpenAI Settings (Optional)
     AZURE_OPENAI_API_KEY: SecretStr | None = None
     AZURE_OPENAI_ENDPOINT: str | None = None
     # Razorpay Integration Settings
@@ -159,6 +120,7 @@ class Settings(BaseSettings):
     DEFAULT_CURRENCY: str = "INR"
     ENFORCE_QUIET_HOURS: bool = True
     SIMULATED_RECOVERY_RATE_BASE: float = 0.72
+    LANGFUSE_TRACING: bool = False
 
     def model_post_init(self, __context: Any) -> None:
         api_keys = {
@@ -236,28 +198,10 @@ class Settings(BaseSettings):
                     if self.DEFAULT_MODEL is None:
                         self.DEFAULT_MODEL = AzureOpenAIModelName.AZURE_GPT_5_MINI
                     self.AVAILABLE_MODELS.update(set(AzureOpenAIModelName))
-                    # Validate Azure OpenAI settings if Azure provider is available
                     if not self.AZURE_OPENAI_API_KEY:
                         raise ValueError("AZURE_OPENAI_API_KEY must be set")
                     if not self.AZURE_OPENAI_ENDPOINT:
                         raise ValueError("AZURE_OPENAI_ENDPOINT must be set")
-                    if not self.AZURE_OPENAI_DEPLOYMENT_MAP:
-                        raise ValueError("AZURE_OPENAI_DEPLOYMENT_MAP must be set")
-
-                    # Parse deployment map if it's a string
-                    if isinstance(self.AZURE_OPENAI_DEPLOYMENT_MAP, str):
-                        try:
-                            self.AZURE_OPENAI_DEPLOYMENT_MAP = loads(
-                                self.AZURE_OPENAI_DEPLOYMENT_MAP
-                            )
-                        except Exception as e:
-                            raise ValueError(f"Invalid AZURE_OPENAI_DEPLOYMENT_MAP JSON: {e}")
-
-                    # Validate required deployments exist
-                    required_models = {"gpt-5", "gpt-5-mini"}
-                    missing_models = required_models - set(self.AZURE_OPENAI_DEPLOYMENT_MAP.keys())
-                    if missing_models:
-                        raise ValueError(f"Missing required Azure deployments: {missing_models}")
                 case _:
                     raise ValueError(f"Unknown provider: {provider}")
 

@@ -67,8 +67,17 @@ class VoiceRecoveryAgent:
 
         return {
             "agent_response": response,
+            "agent_response_hinglish": response,
             "outcome": outcome,
+            "detected_sentiment": "POSITIVE" if outcome in [
+                "RECOVERED_VIA_WHATSAPP_LINK",
+                "PROMISE_TO_PAY_RECORDED",
+                "MIDCALL_WHATSAPP_LINK_DISPATCHED",
+                "MIDCALL_DISCOUNT_APPLIED",
+            ] else "NEGATIVE",
+            "payment_link": payment_link,
             "ptp_record": ptp,
+            "ptp_recorded": ptp is not None,
             "midcall_action": midcall_action,
         }
 

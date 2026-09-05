@@ -46,10 +46,6 @@ from schema import (
     UserThreads,
     UserThreadsInput,
 )
-try:
-    from service.agui import router as agui_router
-except ImportError:
-    agui_router = None
 from service.threads import list_user_threads
 from service.utils import (
     convert_message_content_to_string,
@@ -122,8 +118,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 app = FastAPI(lifespan=lifespan, generate_unique_id_function=custom_generate_unique_id)
 router = APIRouter(dependencies=[Depends(verify_bearer)])
-if agui_router is not None:
-    router.include_router(agui_router)
 
 
 
@@ -487,7 +481,7 @@ router.include_router(recovery_router)
 async def health_check():
     """Health check endpoint."""
     health_status = {"status": "ok", "service": "RevRecover_AI_Platform", "environment": "RAZORPAY_TEST_MODE"}
-    if settings.LANGFUSE_TRACING:
+    if getattr(settings, "LANGFUSE_TRACING", False) and Langfuse is not None:
         try:
             langfuse = Langfuse()
             health_status["langfuse"] = "connected" if langfuse.auth_check() else "disconnected"

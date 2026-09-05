@@ -110,8 +110,6 @@ def get_model(model_name: AllModelEnum, /) -> ModelT:
 
     if model_name in GroqModelName:
         from langchain_groq import ChatGroq
-        if model_name == GroqModelName.GPT_OSS_SAFEGUARD_20B:
-            return ChatGroq(model=api_model_name, temperature=0.0)
         return ChatGroq(model=api_model_name, temperature=0.5)
 
     if model_name in AWSModelName:

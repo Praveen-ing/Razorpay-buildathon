@@ -79,7 +79,6 @@ class GroqModelName(StrEnum):
 
     GPT_OSS_20B = "openai/gpt-oss-20b"
     GPT_OSS_120B = "openai/gpt-oss-120b"
-    GPT_OSS_SAFEGUARD_20B = "openai/gpt-oss-safeguard-20b"
 
 
 class AWSModelName(StrEnum):
