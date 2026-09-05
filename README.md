@@ -76,19 +76,18 @@ A detailed architectural breakdown is available in [**`ARCHITECTURE.md`**](file:
 ```
 Razorpay-buildathon/
 ├── README.md                      # Complete Project Documentation & Pitch
-├── ARCHITECTURE.md                # System Architecture & Development Guide
+├── ARCHITECTURE.md                # System Architecture & Multi-Agent Graph
+├── SYSTEM_GUIDE.md                # System Verification & Evaluation Guide
 ├── pyproject.toml                 # Packaging & Dependencies
 ├── .env.example                   # Environment Configuration Template
-├── compose.yaml                   # Docker Compose Specification
 ├── data/
 │   ├── benchmark_batches/         # High-fidelity synthetic transaction batches
 │   │   └── composite_batch_100.json
 │   ├── razorpay_error_codes.json  # 40+ error taxonomy & bank health heuristics
 │   └── compliance_rules.json      # RBI & DPDP compliance thresholds
 ├── src/
-│   ├── run_service.py             # FastAPI Server Runner
-│   ├── run_client.py              # Python SDK / CLI Harness
-│   ├── streamlit_app.py           # Recovery Command Center UI
+│   ├── run_service.py             # FastAPI Server Runner (Port 8080)
+│   ├── streamlit_app.py           # Enterprise Command Center UI (Port 8501)
 │   ├── core/
 │   │   ├── settings.py            # Pydantic Settings with Razorpay configurations
 │   │   ├── llm.py                 # Multi-LLM provider router (OpenAI, Gemini, Anthropic, Groq, Ollama)
@@ -102,6 +101,7 @@ Razorpay-buildathon/
 │   │   ├── strategist.py          # Dynamic Intervention & Discount Planner
 │   │   ├── governor.py            # Compliance, Dunning Bounds & Stopping Rules
 │   │   ├── executor.py            # External actions (Razorpay API link generation & message dispatch)
+│   │   ├── mandate_sequencer.py   # RBI-compliant 5-Step Dunning Sequencer
 │   │   ├── voice_recovery.py      # Hinglish Conversational AI Recovery Agent
 │   │   └── audit_agent.py         # Cryptographic SHA-256 Audit Ledger & State Tracker
 │   ├── integrations/
@@ -117,14 +117,17 @@ Razorpay-buildathon/
     │   ├── test_detector.py
     │   ├── test_strategist.py
     │   ├── test_governor.py
-    │   ├── test_executor.py       # Unit tests for the executor layer
-    │   ├── test_webhook_idempotency.py # Tests for webhook verification & deduplication
-    │   ├── test_state_machine.py  # Tests for RecoveryCaseStatus & PTP status transitions
+    │   ├── test_executor.py
+    │   ├── test_mandate_sequencer.py
+    │   ├── test_enterprise_features.py
+    │   ├── test_expected_value_and_fraud.py
+    │   ├── test_webhook_idempotency.py
+    │   ├── test_state_machine.py
     │   └── test_razorpay.py
     ├── integration/
     │   └── test_batch_recovery.py
     └── e2e/
-        └── test_razorpay_test_mode.py # End-to-end integration tests using live Razorpay API
+        └── test_razorpay_test_mode.py
 ```
 
 ---
