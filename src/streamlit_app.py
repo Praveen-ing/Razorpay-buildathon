@@ -70,303 +70,276 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* ─── Base ─────────────────────────────────────────── */
+    /* ─── Pure White Light Theme ────────────────────────── */
     html, body, [class*="css"], .stApp {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: #0a0d14;
-        color: #e2e8f0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
     }
-    .main .block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 1600px; }
+    .main .block-container {
+        padding-top: 1.2rem;
+        padding-bottom: 2rem;
+        max-width: 1600px;
+        background: #ffffff !important;
+    }
 
     /* ─── Sidebar ───────────────────────────────────────── */
     [data-testid="stSidebar"] {
-        background: #0d111c !important;
-        border-right: 1px solid #1e2a3a;
+        background: #f8fafc !important;
+        border-right: 1px solid #e2e8f0 !important;
     }
-    [data-testid="stSidebar"] * { color: #cbd5e1 !important; }
+    [data-testid="stSidebar"] * {
+        color: #1e293b !important;
+    }
     [data-testid="stSidebar"] .stButton > button {
-        background: #1e293b; border: 1px solid #334155;
-        color: #e2e8f0 !important; border-radius: 8px;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+        border-radius: 8px !important;
     }
     [data-testid="stSidebar"] .stButton > button:hover {
-        background: #253449; border-color: #3b82f6;
+        background: #f1f5f9 !important;
+        border-color: #94a3b8 !important;
     }
 
     /* ─── Hero Banner ───────────────────────────────────── */
     .hero-banner {
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-        border: 1px solid #312e81;
-        border-radius: 16px;
-        padding: 28px 32px;
-        margin-bottom: 24px;
-        position: relative;
-        overflow: hidden;
-    }
-    .hero-banner::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle at 30% 50%, rgba(99,102,241,0.08) 0%, transparent 60%);
-        pointer-events: none;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #eef2ff 100%) !important;
+        border: 1px solid #c7d2fe !important;
+        border-radius: 14px !important;
+        padding: 24px 28px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.03) !important;
     }
     .hero-title {
-        font-size: 1.8rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin: 0;
-        letter-spacing: -0.03em;
+        font-size: 1.8rem !important;
+        font-weight: 800 !important;
+        color: #1e1b4b !important;
+        margin: 0 !important;
+        letter-spacing: -0.03em !important;
     }
     .hero-sub {
-        color: #94a3b8;
-        font-size: 0.92rem;
-        margin-top: 6px;
-        line-height: 1.6;
+        color: #475569 !important;
+        font-size: 0.92rem !important;
+        margin-top: 6px !important;
+        line-height: 1.6 !important;
     }
 
     /* ─── KPI Cards ─────────────────────────────────────── */
     .kpi-card {
-        background: #111827;
-        border: 1px solid #1e2a3a;
-        border-radius: 12px;
-        padding: 18px 20px;
-        margin-bottom: 12px;
-        transition: border-color 0.2s, transform 0.15s;
-        position: relative;
-        overflow: hidden;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        padding: 16px 18px !important;
+        margin-bottom: 12px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+        transition: border-color 0.2s, transform 0.15s !important;
     }
-    .kpi-card:hover { border-color: #3b4f6e; transform: translateY(-1px); }
-    .kpi-card-accent { border-left: 3px solid; }
-    .kpi-card-green { border-left-color: #10b981; }
-    .kpi-card-blue { border-left-color: #3b82f6; }
-    .kpi-card-purple { border-left-color: #8b5cf6; }
-    .kpi-card-orange { border-left-color: #f59e0b; }
-    .kpi-card-red { border-left-color: #ef4444; }
-    .kpi-card-cyan { border-left-color: #06b6d4; }
+    .kpi-card:hover {
+        border-color: #cbd5e1 !important;
+        transform: translateY(-1px) !important;
+    }
+    .kpi-card-accent { border-left: 4px solid !important; }
+    .kpi-card-green { border-left-color: #10b981 !important; }
+    .kpi-card-blue { border-left-color: #2563eb !important; }
+    .kpi-card-purple { border-left-color: #7c3aed !important; }
+    .kpi-card-orange { border-left-color: #d97706 !important; }
+    .kpi-card-red { border-left-color: #dc2626 !important; }
+    .kpi-card-cyan { border-left-color: #0891b2 !important; }
     .kpi-label {
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: #64748b;
-        margin-bottom: 6px;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        color: #64748b !important;
+        margin-bottom: 6px !important;
     }
     .kpi-value {
-        font-size: 1.65rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        color: #f1f5f9;
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.03em !important;
+        color: #0f172a !important;
     }
     .kpi-delta {
-        font-size: 0.78rem;
-        font-weight: 500;
-        margin-top: 4px;
-        color: #64748b;
+        font-size: 0.78rem !important;
+        font-weight: 500 !important;
+        margin-top: 4px !important;
+        color: #64748b !important;
     }
 
     /* ─── Status Badges ─────────────────────────────────── */
     .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        padding: 3px 10px !important;
+        border-radius: 20px !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.04em !important;
     }
-    .badge-green  { background: #052e16; color: #4ade80; border: 1px solid #166534; }
-    .badge-red    { background: #450a0a; color: #f87171; border: 1px solid #7f1d1d; }
-    .badge-blue   { background: #0c1a2e; color: #60a5fa; border: 1px solid #1e40af; }
-    .badge-amber  { background: #1c1107; color: #fbbf24; border: 1px solid #78350f; }
-    .badge-purple { background: #1e1b4b; color: #a78bfa; border: 1px solid #4c1d95; }
-    .badge-gray   { background: #111827; color: #9ca3af; border: 1px solid #374151; }
+    .badge-success { background: #dcfce7 !important; color: #15803d !important; border: 1px solid #86efac !important; }
+    .badge-warning { background: #fef3c7 !important; color: #b45309 !important; border: 1px solid #fde68a !important; }
+    .badge-danger  { background: #fee2e2 !important; color: #b91c1c !important; border: 1px solid #fca5a5 !important; }
+    .badge-info    { background: #e0e7ff !important; color: #3730a3 !important; border: 1px solid #c7d2fe !important; }
+    .badge-muted   { background: #f1f5f9 !important; color: #475569 !important; border: 1px solid #cbd5e1 !important; }
 
-    /* ─── Message Card Preview ──────────────────────────── */
-    .msg-card-wa {
-        background: #0b3b2e;
-        border: 1px solid #166534;
-        border-radius: 12px;
-        padding: 16px 20px;
-        font-family: 'Inter', sans-serif;
-        color: #d1fae5;
-        font-size: 0.88rem;
-        line-height: 1.7;
-        white-space: pre-wrap;
-        word-wrap: break-word;
+    /* ─── Channel message cards ─────────────────────────── */
+    .channel-card {
+        border-radius: 12px !important;
+        padding: 18px 20px !important;
+        margin-bottom: 14px !important;
+        font-size: 0.88rem !important;
+        border: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
     }
-    .msg-card-sms {
-        background: #0c1a2e;
-        border: 1px solid #1e40af;
-        border-radius: 12px;
-        padding: 16px 20px;
-        color: #bfdbfe;
-        font-size: 0.88rem;
-        line-height: 1.7;
-        white-space: pre-wrap;
+    .channel-whatsapp {
+        background: #f0fdf4 !important;
+        border: 1px solid #bbf7d0 !important;
+        border-left: 4px solid #16a34a !important;
+        color: #14532d !important;
     }
-    .msg-card-email {
-        background: #1a1207;
-        border: 1px solid #78350f;
-        border-radius: 12px;
-        padding: 16px 20px;
-        color: #fde68a;
-        font-size: 0.88rem;
-        line-height: 1.7;
-        white-space: pre-wrap;
+    .channel-sms {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-left: 4px solid #64748b !important;
+        color: #1e293b !important;
     }
-    .msg-card-voice {
-        background: #1a0b2e;
-        border: 1px solid #4c1d95;
-        border-radius: 12px;
-        padding: 16px 20px;
-        color: #ddd6fe;
-        font-size: 0.88rem;
-        line-height: 1.7;
-        font-style: italic;
+    .channel-email {
+        background: #eff6ff !important;
+        border: 1px solid #bfdbfe !important;
+        border-left: 4px solid #2563eb !important;
+        color: #1e3a8a !important;
     }
-    .msg-channel-header {
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
+    .channel-voice {
+        background: #faf5ff !important;
+        border: 1px solid #e9d5ff !important;
+        border-left: 4px solid #9333ea !important;
+        color: #581c87 !important;
     }
 
-    /* ─── Pipeline Step ─────────────────────────────────── */
-    .pipeline-step {
-        background: #111827;
-        border: 1px solid #1e2a3a;
-        border-radius: 10px;
-        padding: 14px 16px;
-        text-align: center;
-        position: relative;
-    }
-    .pipeline-step-label {
-        font-size: 0.68rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: #475569;
-        margin-bottom: 6px;
-    }
-    .pipeline-step-value {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #e2e8f0;
-    }
-
-    /* ─── Chat Bubbles ──────────────────────────────────── */
+    /* ─── Chat dialog box ───────────────────────────────── */
     .chat-agent {
-        background: #0f172a;
-        border: 1px solid #1e293b;
-        border-left: 3px solid #6366f1;
-        padding: 12px 16px;
-        border-radius: 0 10px 10px 10px;
-        margin-bottom: 10px;
-        color: #c7d2fe;
-        font-size: 0.88rem;
-        line-height: 1.6;
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-left: 3px solid #6366f1 !important;
+        padding: 12px 16px !important;
+        border-radius: 0 10px 10px 10px !important;
+        margin-bottom: 10px !important;
+        color: #1e293b !important;
+        font-size: 0.88rem !important;
+        line-height: 1.6 !important;
     }
     .chat-user {
-        background: #0f2e1a;
-        border: 1px solid #166534;
-        border-right: 3px solid #10b981;
-        padding: 12px 16px;
-        border-radius: 10px 0 10px 10px;
-        margin-bottom: 10px;
-        color: #a7f3d0;
-        font-size: 0.88rem;
-        line-height: 1.6;
-        margin-left: 20px;
+        background: #ecfdf5 !important;
+        border: 1px solid #a7f3d0 !important;
+        border-right: 3px solid #10b981 !important;
+        padding: 12px 16px !important;
+        border-radius: 10px 0 10px 10px !important;
+        margin-bottom: 10px !important;
+        color: #065f46 !important;
+        font-size: 0.88rem !important;
+        line-height: 1.6 !important;
+        margin-left: 20px !important;
     }
 
     /* ─── Dunning Step Cards ─────────────────────────────── */
-    .dunning-step-pending  { border-left: 3px solid #475569; opacity: 0.7; }
-    .dunning-step-done     { border-left: 3px solid #10b981; }
-    .dunning-step-skipped  { border-left: 3px solid #6b7280; opacity: 0.5; }
-    .dunning-step-active   { border-left: 3px solid #f59e0b; }
+    .dunning-step-pending  { border-left: 3px solid #94a3b8 !important; }
+    .dunning-step-done     { border-left: 3px solid #10b981 !important; }
+    .dunning-step-skipped  { border-left: 3px solid #cbd5e1 !important; opacity: 0.7 !important; }
+    .dunning-step-active   { border-left: 3px solid #f59e0b !important; }
 
     /* ─── Plotly theme override ─────────────────────────── */
-    .js-plotly-plot { border-radius: 12px; }
+    .js-plotly-plot {
+        border-radius: 10px !important;
+        border: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
+    }
 
     /* ─── Streamlit native overrides ───────────────────── */
     .stTabs [data-baseweb="tab-list"] {
-        background: #0d111c;
-        gap: 4px;
-        border-bottom: 1px solid #1e2a3a;
-        padding: 0 4px;
+        background: #ffffff !important;
+        gap: 4px !important;
+        border-bottom: 2px solid #e2e8f0 !important;
+        padding: 0 4px !important;
     }
     .stTabs [data-baseweb="tab"] {
-        background: transparent;
-        color: #64748b;
-        border-radius: 8px 8px 0 0;
-        padding: 8px 16px;
-        font-size: 0.82rem;
-        font-weight: 600;
+        background: transparent !important;
+        color: #64748b !important;
+        border-radius: 6px 6px 0 0 !important;
+        padding: 8px 14px !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
     }
     .stTabs [aria-selected="true"] {
-        background: #1e293b !important;
-        color: #818cf8 !important;
-        border-bottom: 2px solid #818cf8;
+        background: #f1f5f9 !important;
+        color: #4f46e5 !important;
+        border-bottom: 2px solid #4f46e5 !important;
     }
     .stSelectbox > div > div, .stTextInput > div > div > input,
     .stNumberInput > div > div > input, .stTextArea textarea {
-        background: #111827 !important;
-        border-color: #1e2a3a !important;
-        color: #e2e8f0 !important;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
         border-radius: 8px !important;
     }
     .stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #4f46e5, #7c3aed);
-        border: none;
-        color: white;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.2s;
+        background: #4f46e5 !important;
+        border: none !important;
+        color: white !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        transition: all 0.2s !important;
     }
     .stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #4338ca, #6d28d9);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+        background: #4338ca !important;
+        box-shadow: 0 2px 8px rgba(79,70,229,0.3) !important;
     }
     .stButton > button[kind="secondary"] {
-        background: #1e293b;
-        border: 1px solid #334155;
-        color: #94a3b8;
-        border-radius: 8px;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #334155 !important;
+        border-radius: 8px !important;
     }
-    .stDataFrame { border-radius: 10px; overflow: hidden; }
-    .stDataFrame table { background: #111827; }
-    .stDataFrame th { background: #0f172a; color: #64748b; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-    .stDataFrame td { color: #e2e8f0; font-size: 0.82rem; border-bottom-color: #1e2a3a; }
-    div[data-testid="stMetricValue"] { font-weight: 800; }
-    .stInfo, .stSuccess, .stWarning, .stError {
-        border-radius: 10px;
-        border: 1px solid;
+    .stDataFrame {
+        border-radius: 8px !important;
+        border: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
     }
-    .stExpander { background: #111827; border: 1px solid #1e2a3a; border-radius: 10px; }
-    hr { border-color: #1e2a3a; }
+    .stDataFrame th {
+        background: #f8fafc !important;
+        color: #475569 !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+    }
+    .stDataFrame td {
+        color: #0f172a !important;
+        font-size: 0.82rem !important;
+        border-bottom-color: #f1f5f9 !important;
+    }
+    div[data-testid="stMetricValue"] {
+        font-weight: 800 !important;
+        color: #0f172a !important;
+    }
+    .stExpander {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+    }
+    hr { border-color: #e2e8f0 !important; }
 
     /* ─── Section Headers ───────────────────────────────── */
-    h1, h2, h3 { color: #e2e8f0; letter-spacing: -0.02em; }
-    h1 { font-weight: 800; font-size: 1.6rem; }
-    h2 { font-weight: 700; font-size: 1.25rem; }
-    h3 { font-weight: 600; font-size: 1.05rem; }
+    h1, h2, h3 { color: #0f172a !important; letter-spacing: -0.02em !important; }
+    h1 { font-weight: 800 !important; font-size: 1.5rem !important; }
+    h2 { font-weight: 700 !important; font-size: 1.2rem !important; }
+    h3 { font-weight: 600 !important; font-size: 1.0rem !important; }
 
     /* ─── Scrollbar ─────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0d14; }
-    ::-webkit-scrollbar-thumb { background: #1e2a3a; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -377,12 +350,12 @@ st.markdown(
 # ─────────────────────────────────────────────────────────
 
 PLOTLY_DARK = dict(
-    paper_bgcolor="#111827",
-    plot_bgcolor="#111827",
-    font=dict(family="Inter, sans-serif", color="#94a3b8"),
+    paper_bgcolor="#ffffff",
+    plot_bgcolor="#ffffff",
+    font=dict(family="Inter, sans-serif", color="#475569"),
     margin=dict(l=20, r=20, t=40, b=20),
-    xaxis=dict(gridcolor="#1e2a3a", linecolor="#1e2a3a"),
-    yaxis=dict(gridcolor="#1e2a3a", linecolor="#1e2a3a"),
+    xaxis=dict(gridcolor="#f1f5f9", linecolor="#cbd5e1"),
+    yaxis=dict(gridcolor="#f1f5f9", linecolor="#cbd5e1"),
 )
 
 def kpi_card(label: str, value: str, delta: str = "", accent: str = "blue") -> str:
@@ -580,7 +553,7 @@ with st.expander("🧭 Platform Overview & Architecture Tour", expanded=False):
         st.markdown("""
         <div style="background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.25); border-radius:10px; padding:12px;">
             <div style="font-weight:700; color:#818cf8; font-size:0.92rem; margin-bottom:6px;">🚀 Service Endpoints & Docs</div>
-            <div style="font-size:0.8rem; color:#cbd5e1; line-height:1.6;">
+            <div style="font-size:0.8rem; color:#334155; line-height:1.6;">
                 • <strong>FastAPI Backend:</strong> <a href="http://localhost:8080/docs" target="_blank" style="color:#38bdf8;">http://localhost:8080/docs</a><br>
                 • <strong>Health Check:</strong> <a href="http://localhost:8080/health" target="_blank" style="color:#38bdf8;">http://localhost:8080/health</a><br>
                 • <strong>Test Suite:</strong> <code>52 Tests Passing</code> (100%)<br>
@@ -677,7 +650,7 @@ with tab_batch:
 
             if (i + 1) % max(1, count // 20) == 0 or i == len(events) - 1:
                 recovered_live.markdown(f"""
-                <div style="background:#0f2e1a; border:1px solid #166534; border-radius:10px; padding:14px 20px; margin: 8px 0;">
+                <div style="background:#ecfdf5; border:1px solid #86efac; color:#065f46; border-radius:10px; padding:14px 20px; margin: 8px 0;">
                     <span style="font-size:0.8rem;color:#6ee7b7;">💰 AGENT RECOVERED</span>
                     <span style="font-size:1.4rem; font-weight:800; color:#4ade80; margin-left:10px;">
                         {fmt_inr(running_recovered)}
@@ -732,7 +705,7 @@ with tab_batch:
                    count - stopped_count, rec_count],
                 textinfo="value+percent initial",
                 marker=dict(color=["#3b82f6","#6366f1","#8b5cf6","#a78bfa","#f59e0b","#10b981"]),
-                connector=dict(line=dict(color="#1e2a3a", width=2)),
+                connector=dict(line=dict(color="#cbd5e1", width=2)),
             ))
             fig_funnel.update_layout(**PLOTLY_DARK,
                 title=dict(text="🔀 Recovery Pipeline Funnel", font=dict(color="#e2e8f0", size=13), x=0),
@@ -924,7 +897,7 @@ with tab_live:
                 st.markdown(f"""
                 <div class="kpi-card" style="border-left: 3px solid {color};">
                     <div class="kpi-label">{title}</div>
-                    <div style="font-size:0.85rem; font-weight:600; color:#e2e8f0; white-space:pre-line;">{content}</div>
+                    <div style="font-size:0.85rem; font-weight:600; color:#0f172a; white-space:pre-line;">{content}</div>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -1015,7 +988,7 @@ with tab_mandate:
     with ms_col2:
         st.markdown("#### 📖 RBI e-Mandate Rules")
         st.markdown("""
-        <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:14px 18px; font-size:0.82rem; color:#94a3b8; line-height:1.9;">
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; color:#0f172a; border-radius:10px; padding:14px 18px; font-size:0.82rem; color:#94a3b8; line-height:1.9;">
         <strong style="color:#818cf8;">NACH Retry Circular:</strong><br>
         • Max 3 auto-debit attempts per 30-day window<br>
         • Mandatory prior notification before debit<br>
@@ -1058,11 +1031,11 @@ with tab_mandate:
 
         # Outcome header
         outcome_colors = {
-            "RECOVERED": ("#052e16", "#4ade80", "#166534"),
-            "STOPPED": ("#450a0a", "#f87171", "#7f1d1d"),
-            "EXHAUSTED": ("#1c1107", "#fbbf24", "#78350f"),
+            "RECOVERED": ("#f0fdf4", "#15803d", "#86efac"),
+            "STOPPED": ("#fef2f2", "#b91c1c", "#fca5a5"),
+            "EXHAUSTED": ("#fffbeb", "#b45309", "#fde68a"),
         }
-        bg, fg, border = outcome_colors.get(sequence.status, ("#111827", "#e2e8f0", "#1e2a3a"))
+        bg, fg, border = outcome_colors.get(sequence.status, ("#f8fafc", "#0f172a", "#e2e8f0"))
         st.markdown(f"""
         <div style="background:{bg}; border:1px solid {border}; border-radius:12px; padding:16px 22px; margin:16px 0;">
             <span style="font-size:0.75rem; font-weight:700; color:{fg}; text-transform:uppercase; letter-spacing:0.08em;">
@@ -1089,16 +1062,16 @@ with tab_mandate:
         }
         for i, (step, col) in enumerate(zip(sequence.steps, step_cols)):
             color, icon = status_colors.get(step.status, ("#475569", "❓"))
-            bg_color = "#0f2e1a" if step.status == DunningStepStatus.COMPLETED and step.amount_recovered > 0 else "#111827"
+            bg_color = "#f0fdf4" if step.status == DunningStepStatus.COMPLETED and step.amount_recovered > 0 else "#ffffff"
             with col:
                 st.markdown(f"""
-                <div style="background:{bg_color}; border:1px solid #1e2a3a; border-top:3px solid {color};
+                <div style="background:{bg_color}; border:1px solid #e2e8f0; border-top:3px solid {color};
                             border-radius:10px; padding:12px 10px; text-align:center; min-height:140px;">
                     <div style="font-size:1.2rem;">{icon}</div>
-                    <div style="font-size:0.65rem; font-weight:700; color:#64748b; margin:4px 0; text-transform:uppercase;">{step.name[:22]}</div>
-                    <div style="font-size:0.7rem; color:#94a3b8;">T+{step.delay_hours}h</div>
+                    <div style="font-size:0.65rem; font-weight:700; color:#475569; margin:4px 0; text-transform:uppercase;">{step.name[:22]}</div>
+                    <div style="font-size:0.7rem; color:#64748b;">T+{step.delay_hours}h</div>
                     <div style="font-size:0.72rem; color:{color}; margin-top:6px; font-weight:600;">{step.status.value}</div>
-                    {f'<div style="font-size:0.78rem; color:#4ade80; font-weight:700; margin-top:4px;">₹{step.amount_recovered:,.0f}</div>' if step.amount_recovered > 0 else ''}
+                    {f'<div style="font-size:0.78rem; color:#15803d; font-weight:700; margin-top:4px;">₹{step.amount_recovered:,.0f}</div>' if step.amount_recovered > 0 else ''}
                     {f'<div style="font-size:0.65rem; color:#6b7280; margin-top:4px;">{step.discount_pct:.0f}% off</div>' if step.discount_pct > 0 else ''}
                 </div>
                 """, unsafe_allow_html=True)
@@ -1234,9 +1207,9 @@ with tab_webhook:
             html_log = ""
             for j, row in enumerate(event_rows[:8]):
                 is_c = "CAPTURED" in row["Status"]
-                bg = "#0f2e1a" if is_c else "#1a0a0a"
-                border = "#166534" if is_c else "#450a0a"
-                txt_color = "#4ade80" if is_c else "#f87171"
+                bg = "#f0fdf4" if is_c else "#fef2f2"
+                border = "#86efac" if is_c else "#fca5a5"
+                txt_color = "#15803d" if is_c else "#b91c1c"
                 opacity = max(0.4, 1.0 - j * 0.1)
                 html_log += f"""<div style="background:{bg}; border:1px solid {border}; border-radius:7px;
                     padding:8px 14px; margin-bottom:5px; font-family:'JetBrains Mono',monospace;
@@ -1249,7 +1222,7 @@ with tab_webhook:
                 </div>"""
             event_placeholder.markdown(html_log, unsafe_allow_html=True)
             summary_placeholder.markdown(f"""
-            <div style="background:#0f2e1a; border:1px solid #166534; border-radius:8px;
+            <div style="background:#ecfdf5; border:1px solid #86efac; color:#065f46; border-radius:8px;
                         padding:10px 18px; font-size:0.85rem; color:#4ade80;">
                 💰 <strong>₹{total_captured_amt:,.2f}</strong> captured so far &nbsp;·&nbsp;
                 {sum(1 for r in event_rows if 'CAPTURED' in r['Status'])} payments confirmed &nbsp;·&nbsp;
@@ -1299,7 +1272,7 @@ with tab_webhook:
                 st.warning(f"⚠️ Signature mismatch. Expected: `{expected[:20]}...`\n\nThis is expected in demo mode — configure real secret in `.env`")
     with sv_col2:
         st.markdown("""
-        <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px;
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; color:#0f172a; border-radius:10px;
                     padding:14px 18px; font-size:0.8rem; color:#94a3b8; line-height:1.9;">
         <strong style="color:#818cf8;">Security Protocol:</strong><br>
         1. Razorpay signs payload with <code>HMAC-SHA256</code><br>
@@ -1385,7 +1358,7 @@ with tab_cohort:
             ))
             fig_ec.update_layout(**{k:v for k,v in PLOTLY_DARK.items() if k != 'xaxis'}, height=280, showlegend=False,
                 title=dict(text="Error Code → Recovery Rate", font=dict(color="#e2e8f0", size=12), x=0),
-                xaxis=dict(gridcolor="#1e2a3a", linecolor="#1e2a3a", tickangle=-30))
+                xaxis=dict(gridcolor="#f1f5f9", linecolor="#cbd5e1", tickangle=-30))
             st.plotly_chart(fig_ec, use_container_width=True)
 
         with co2:
@@ -1526,7 +1499,7 @@ with tab_journey:
 
         for step_idx, (icon, label, agent, detail, color) in enumerate(timeline_steps):
             is_last = step_idx == len(timeline_steps) - 1
-            connector = "" if is_last else "<div style='width:2px; height:24px; background:#1e2a3a; margin:2px auto;'></div>"
+            connector = "" if is_last else "<div style='width:2px; height:24px; background:#e2e8f0; margin:2px auto;'></div>"
             st.markdown(f"""
             <div style="display:flex; align-items:flex-start; margin-bottom:4px;">
                 <div style="display:flex; flex-direction:column; align-items:center; margin-right:14px; width:32px; flex-shrink:0;">
@@ -1535,13 +1508,13 @@ with tab_journey:
                         font-size:0.85rem; flex-shrink:0;">{icon}</div>
                     {connector}
                 </div>
-                <div style="background:#111827; border:1px solid {color}30; border-left:3px solid {color};
+                <div style="background:#ffffff; border:1px solid {color}30; border-left:3px solid {color};
                     border-radius:0 10px 10px 10px; padding:10px 14px; flex:1; margin-bottom:8px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                         <span style="font-size:0.88rem; font-weight:700; color:{color};">{label}</span>
-                        <code style="font-size:0.68rem; color:#475569; background:#0f172a; padding:2px 6px; border-radius:4px;">{agent}</code>
+                        <code style="font-size:0.68rem; color:#475569; background:#f1f5f9; border:1px solid #e2e8f0; padding:2px 6px; border-radius:4px;">{agent}</code>
                     </div>
-                    <div style="font-size:0.8rem; color:#94a3b8; line-height:1.5;">{detail}</div>
+                    <div style="font-size:0.8rem; color:#475569; line-height:1.5;">{detail}</div>
                 </div>
             </div>""", unsafe_allow_html=True)
 
@@ -1627,7 +1600,7 @@ with tab_rzp:
                 )
             st.success(f"✅ Link created: **`{resp.id}`**")
             st.markdown(f"""
-            <div style="background:#0b3b2e; border:1px solid #166534; border-radius:10px; padding:14px 18px; margin:10px 0;">
+            <div style="background:#ecfdf5; border:1px solid #86efac; color:#065f46; border-radius:10px; padding:14px 18px; margin:10px 0;">
                 <div style="color:#4ade80; font-size:0.8rem; font-weight:700; margin-bottom:6px;">🔗 RAZORPAY PAYMENT LINK CREATED</div>
                 <div style="font-size:0.9rem; color:#d1fae5;">
                     <strong>Link ID:</strong> <code style="color:#6ee7b7;">{resp.id}</code><br>
@@ -1901,10 +1874,10 @@ with tab_audit:
 with tab_enterprise:
     st.header("💎 Enterprise Capabilities Showcase")
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#1e1b4b,#0f172a); border:1px solid #312e81;
+    <div style="background:#f8fafc; border:1px solid #c7d2fe;
                 border-radius:14px; padding:20px 26px; margin-bottom:20px;">
         <h3 style="color:#818cf8; margin:0 0 8px;">🚀 Production Architecture & Core Differentiators</h3>
-        <div style="color:#a5b4fc; font-size:0.9rem; line-height:1.8;">
+        <div style="color:#334155; font-size:0.9rem; line-height:1.8;">
             1. <strong>Real Razorpay Test API</strong> — real payment links, not mock URLs<br>
             2. <strong>RBI-Compliant Mandate Sequencer</strong> — multi-step dunning with stopping rules at every step<br>
             3. <strong>Cryptographic SHA-256 Audit Chain</strong> — tamper-evident, ZK-provable compliance<br>
@@ -2015,10 +1988,10 @@ with tab_enterprise:
             sentiment = v_res.get("detected_sentiment", "POSITIVE")
             color = "#10b981" if sentiment == "POSITIVE" else "#ef4444"
             st.markdown(f"""
-            <div style="background:#111827; border:1px solid #1e2a3a; border-left:3px solid {color};
+            <div style="background:#ffffff; border:1px solid #e2e8f0; border-left:3px solid {color};
                         border-radius:10px; padding:14px 18px; margin:8px 0;">
                 <div style="font-size:0.72rem; color:#64748b; font-weight:700; margin-bottom:6px;">AGENT RESPONSE</div>
-                <div style="color:#e2e8f0; font-size:0.88rem;">{v_res.get('agent_response_hinglish','')}</div>
+                <div style="color:#0f172a; font-size:0.88rem;">{v_res.get('agent_response_hinglish','')}</div>
                 <div style="margin-top:10px; font-size:0.78rem; color:#94a3b8;">
                     Sentiment: <strong style="color:{color};">{sentiment}</strong> &nbsp;|&nbsp;
                     Link: <a href="{v_res.get('payment_link','')}" style="color:#818cf8;">{v_res.get('payment_link','')}</a>
