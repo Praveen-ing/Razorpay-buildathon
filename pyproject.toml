@@ -46,6 +46,7 @@ dependencies = [
     "tiktoken >=0.13.0",
     "uvicorn ~=0.51.0",
     "plotly>=6.9.0",
+    "reportlab>=5.0.1",
 ]
 
 # Supply-chain cooldown: resolution only considers releases >=14 days old. Needs the
